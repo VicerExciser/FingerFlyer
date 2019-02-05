@@ -43,11 +43,11 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
 {
   if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick)) {
     // Rate-controlled YAW is moving YAW angle setpoint
-	  /** WARNING! EXPERIMENTALLY MODIFIED FOR ONLY CORRECTING YAW ON 15 DEG. INTERVALS: **/
-	if (yawError > YAW_SETPOINT_THRESH)
-		setpoint->attitude.yaw += yawError;
-	else if (yawError < -(YAW_SETPOINT_THRESH))
-		setpoint->attitude.yaw -= yawError;
+	  /** WARNING! EXPERIMENTALLY MODIFIED FOR ONLY CORRECTING YAW ON 30 DEG. INTERVALS: **/
+	// if (yawError > YAW_SETPOINT_THRESH)
+	// 	setpoint->attitude.yaw += yawError;
+	// else if (yawError < -(YAW_SETPOINT_THRESH))
+	// 	setpoint->attitude.yaw -= yawError;
 
     if (setpoint->mode.yaw == modeVelocity) {
 //       attitudeDesired.yaw += setpoint->attitudeRate.yaw * ATTITUDE_UPDATE_DT;
@@ -77,6 +77,16 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
     }
 
 //    float yawError; <-- made global
+
+    /** WARNING! EXPERIMENTALLY MODIFIED FOR RESETTING YAW SETPOINT AT 30 DEG. INTERVALS: **/
+    float eulerYawActual = state->attitude.yaw;
+    if (abs(eulerYawActual - attitudeDesired.yaw) > YAW_SETPOINT_THRESH
+            || abs(eulerYawActual - setpoint->attitude.yaw) > YAW_SETPOINT_THRESH) {
+        attitudeDesired.yaw = eulerYawActual;
+        setpoint->attitude.yaw = eulerYawActual;
+    }
+    /**    **/
+    
     attitudeControllerCorrectAttitudePID(state->attitude.roll, state->attitude.pitch, state->attitude.yaw,
                                 attitudeDesired.roll, attitudeDesired.pitch, attitudeDesired.yaw,
                                 &rateDesired.roll, &rateDesired.pitch, &rateDesired.yaw,
@@ -103,7 +113,7 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
                                         &control->yaw);
 
     control->yaw = -control->yaw;
-    // ^ why do this?
+    // ^ inverted orientation for sensor inputs
   }
 
   if (tiltCompensationEnabled)

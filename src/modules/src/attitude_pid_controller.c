@@ -98,6 +98,10 @@ bool attitudeControllerTest()
   return isInit;
 }
 
+
+
+
+
 /* IMPORTANT FUNCTION FOR FUTURE FEATURE DEVELOPMENT */
 void attitudeControllerCorrectRatePID(
        float rollRateActual, float pitchRateActual, float yawRateActual,
@@ -110,8 +114,9 @@ void attitudeControllerCorrectRatePID(
   pitchOutput = saturateSignedInt16(pidUpdate(&pidPitchRate, pitchRateActual, true));
 
   /** NOTE: My modifications made below for relieving yaw orientation lock: **/
-  pidSetDesired(&pidYawRate, yawRateDesired);
-//  pidSetDesired(&pidYawRate, yawRateActual);
+  // pidSetDesired(&pidYawRate, yawRateDesired);
+  /**    **/
+ pidSetDesired(&pidYawRate, yawRateActual);
   yawOutput = saturateSignedInt16(pidUpdate(&pidYawRate, yawRateActual, true));
 //  yawOutput = saturateSignedInt16(pidUpdate(&pidYawRate, yawRateActual, false));
 
@@ -132,7 +137,7 @@ void attitudeControllerCorrectAttitudePID(
   *pitchRateDesired = pidUpdate(&pidPitch, eulerPitchActual, true);
 
   // Update PID for yaw axis
-  float yawError;
+  float yawError = 0.0f;
   yawError = eulerYawDesired - eulerYawActual;
   // Quick modulo 360:
   if (yawError > 180.0f)
@@ -146,6 +151,10 @@ void attitudeControllerCorrectAttitudePID(
   pidSetError(&pidYaw, yawError);
   *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, true);
 }
+
+
+
+
 
 void attitudeControllerResetRollAttitudePID(void)
 {

@@ -132,8 +132,10 @@ static struct this_s this = {
     .pid.dt = DT,
   },
 
-  .thrustBase = 36000,
-  .thrustMin  = 20000,
+  // .thrustBase = 36000,
+  // .thrustMin  = 20000,
+  .thrustBase = 32000,
+  .thrustMin  = 10000,
 };
 #endif
 
@@ -199,8 +201,9 @@ void velocityController(float* thrust, attitude_t *attitude, setpoint_t *setpoin
   this.pidVX.pid.outputLimit = rpLimit * rpLimitOverhead;
   this.pidVY.pid.outputLimit = rpLimit * rpLimitOverhead;
   // Set the output limit to the maximum thrust range
-  this.pidVZ.pid.outputLimit = (UINT16_MAX / 2 / thrustScale);
-  //this.pidVZ.pid.outputLimit = (this.thrustBase - this.thrustMin) / thrustScale;
+  // this.pidVZ.pid.outputLimit = (UINT16_MAX / 2 / thrustScale);
+  /* EXPERIMENTAL CHANGE: */
+  this.pidVZ.pid.outputLimit = (this.thrustBase - this.thrustMin) / thrustScale;
 
   // Roll and Pitch
   float rollRaw  = runPid(state->velocity.x, &this.pidVX, setpoint->velocity.x, DT);
