@@ -11,6 +11,8 @@
 #include "param.h"
 
 #define ATTITUDE_UPDATE_DT    (float)(1.0f/ATTITUDE_RATE)
+#define YAW_SETPOINT_THRESH 30.0f 	// User can change set yaw orientation after
+										// rotating + or - 30 degrees
 
 static bool tiltCompensationEnabled = false;
 
@@ -33,22 +35,31 @@ bool controllerPidTest(void)
   return pass;
 }
 
+float yawError;
 void controllerPid(control_t *control, setpoint_t *setpoint,
                                          const sensorData_t *sensors,
                                          const state_t *state,
                                          const uint32_t tick)
 {
   if (RATE_DO_EXECUTE(ATTITUDE_RATE, tick)) {
-    // Rate-controled YAW is moving YAW angle setpoint
+    // Rate-controlled YAW is moving YAW angle setpoint
+	  /** WARNING! EXPERIMENTALLY MODIFIED FOR ONLY CORRECTING YAW ON 15 DEG. INTERVALS: **/
+	if (yawError > YAW_SETPOINT_THRESH)
+		setpoint->attitude.yaw += yawError;
+	else if (yawError < -(YAW_SETPOINT_THRESH))
+		setpoint->attitude.yaw -= yawError;
+
     if (setpoint->mode.yaw == modeVelocity) {
-       attitudeDesired.yaw += setpoint->attitudeRate.yaw * ATTITUDE_UPDATE_DT;
+//       attitudeDesired.yaw += setpoint->attitudeRate.yaw * ATTITUDE_UPDATE_DT;
+       attitudeDesired.yaw = setpoint->attitude.yaw;
       while (attitudeDesired.yaw > 180.0f)
         attitudeDesired.yaw -= 360.0f;
       while (attitudeDesired.yaw < -180.0f)
         attitudeDesired.yaw += 360.0f;
     } else {
-      attitudeDesired.yaw = setpoint->attitude.yaw;
+    	attitudeDesired.yaw = setpoint->attitude.yaw;
     }
+
   }
 
   if (RATE_DO_EXECUTE(POSITION_RATE, tick)) {
@@ -65,9 +76,11 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
       attitudeDesired.pitch = setpoint->attitude.pitch;
     }
 
+//    float yawError; <-- made global
     attitudeControllerCorrectAttitudePID(state->attitude.roll, state->attitude.pitch, state->attitude.yaw,
                                 attitudeDesired.roll, attitudeDesired.pitch, attitudeDesired.yaw,
-                                &rateDesired.roll, &rateDesired.pitch, &rateDesired.yaw);
+                                &rateDesired.roll, &rateDesired.pitch, &rateDesired.yaw,
+								&yawError);
 
     // For roll and pitch, if velocity mode, overwrite rateDesired with the setpoint
     // value. Also reset the PID to avoid error buildup, which can lead to unstable
@@ -90,6 +103,7 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
                                         &control->yaw);
 
     control->yaw = -control->yaw;
+    // ^ why do this?
   }
 
   if (tiltCompensationEnabled)
@@ -116,7 +130,7 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
   }
 }
 
-
+// From log.h:
 LOG_GROUP_START(controller)
 LOG_ADD(LOG_FLOAT, actuatorThrust, &actuatorThrust)
 LOG_ADD(LOG_FLOAT, roll,      &attitudeDesired.roll)
@@ -127,6 +141,8 @@ LOG_ADD(LOG_FLOAT, pitchRate, &rateDesired.pitch)
 LOG_ADD(LOG_FLOAT, yawRate,   &rateDesired.yaw)
 LOG_GROUP_STOP(controller)
 
+// From param.h:
 PARAM_GROUP_START(controller)
+// TODO: Investigate the computation chain for tiltComp
 PARAM_ADD(PARAM_UINT8, tiltComp, &tiltCompensationEnabled)
 PARAM_GROUP_STOP(controller)

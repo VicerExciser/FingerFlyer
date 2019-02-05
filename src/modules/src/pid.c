@@ -62,6 +62,7 @@ float pidUpdate(PidObject* pid, const float measured, const bool updateError)
         pid->error = pid->desired - measured;
     }
 
+    // proportional output = proportional gain * error
     pid->outP = pid->kp * pid->error;
     output += pid->outP;
 
@@ -75,6 +76,8 @@ float pidUpdate(PidObject* pid, const float measured, const bool updateError)
     if (isnan(pid->deriv)) {
       pid->deriv = 0;
     }
+
+    // derivative output = derivative gain * derivative
     pid->outD = pid->kd * pid->deriv;
     output += pid->outD;
 
@@ -86,6 +89,7 @@ float pidUpdate(PidObject* pid, const float measured, const bool updateError)
     	pid->integ = constrain(pid->integ, -pid->iLimit, pid->iLimit);
     }
 
+    // integral output = integral gain * integral
     pid->outI = pid->ki * pid->integ;
     output += pid->outI;
 
@@ -95,9 +99,9 @@ float pidUpdate(PidObject* pid, const float measured, const bool updateError)
       output = constrain(output, -pid->outputLimit, pid->outputLimit);
     }
 
-
     pid->prevError = pid->error;
 
+    // return outP + outD + outI
     return output;
 }
 

@@ -98,6 +98,7 @@ bool attitudeControllerTest()
   return isInit;
 }
 
+/* IMPORTANT FUNCTION FOR FUTURE FEATURE DEVELOPMENT */
 void attitudeControllerCorrectRatePID(
        float rollRateActual, float pitchRateActual, float yawRateActual,
        float rollRateDesired, float pitchRateDesired, float yawRateDesired)
@@ -108,15 +109,21 @@ void attitudeControllerCorrectRatePID(
   pidSetDesired(&pidPitchRate, pitchRateDesired);
   pitchOutput = saturateSignedInt16(pidUpdate(&pidPitchRate, pitchRateActual, true));
 
+  /** NOTE: My modifications made below for relieving yaw orientation lock: **/
   pidSetDesired(&pidYawRate, yawRateDesired);
+//  pidSetDesired(&pidYawRate, yawRateActual);
   yawOutput = saturateSignedInt16(pidUpdate(&pidYawRate, yawRateActual, true));
+//  yawOutput = saturateSignedInt16(pidUpdate(&pidYawRate, yawRateActual, false));
+
 }
 
+/* IMPORTANT FUNCTION FOR FUTURE FEATURE DEVELOPMENT */
 void attitudeControllerCorrectAttitudePID(
        float eulerRollActual, float eulerPitchActual, float eulerYawActual,
        float eulerRollDesired, float eulerPitchDesired, float eulerYawDesired,
-       float* rollRateDesired, float* pitchRateDesired, float* yawRateDesired)
+       float* rollRateDesired, float* pitchRateDesired, float* yawRateDesired, float* yawErr)
 {
+	// Roll/Pitch/Yaw measurements taken from the gyroscope
   pidSetDesired(&pidRoll, eulerRollDesired);
   *rollRateDesired = pidUpdate(&pidRoll, eulerRollActual, true);
 
@@ -127,12 +134,17 @@ void attitudeControllerCorrectAttitudePID(
   // Update PID for yaw axis
   float yawError;
   yawError = eulerYawDesired - eulerYawActual;
+  // Quick modulo 360:
   if (yawError > 180.0f)
     yawError -= 360.0f;
   else if (yawError < -180.0f)
     yawError += 360.0f;
+  // Removing yaw orientation lock with the following line:
+//  yawError = 0.0f;
+  // Another one of my modifications:
+  *yawErr = yawError;
   pidSetError(&pidYaw, yawError);
-  *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, false);
+  *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, true);
 }
 
 void attitudeControllerResetRollAttitudePID(void)
