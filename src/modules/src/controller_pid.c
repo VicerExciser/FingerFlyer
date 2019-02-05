@@ -9,6 +9,7 @@
 
 #include "log.h"
 #include "param.h"
+#include <math.h>
 
 #define ATTITUDE_UPDATE_DT    (float)(1.0f/ATTITUDE_RATE)
 #define YAW_SETPOINT_THRESH 30.0f 	// User can change set yaw orientation after
@@ -80,10 +81,12 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
 
     /** WARNING! EXPERIMENTALLY MODIFIED FOR RESETTING YAW SETPOINT AT 30 DEG. INTERVALS: **/
     float eulerYawActual = state->attitude.yaw;
-    if (abs(eulerYawActual - attitudeDesired.yaw) > YAW_SETPOINT_THRESH
-            || abs(eulerYawActual - setpoint->attitude.yaw) > YAW_SETPOINT_THRESH) {
+    double yawDesDelta = (double)(eulerYawActual - attitudeDesired.yaw);
+    double yawSetDelta = (double)(eulerYawActual - setpoint->attitude.yaw);
+    if ((fabs(yawDesDelta) > (double)YAW_SETPOINT_THRESH) || (fabs(yawSetDelta) > (double)YAW_SETPOINT_THRESH)) {
         attitudeDesired.yaw = eulerYawActual;
         setpoint->attitude.yaw = eulerYawActual;
+        control->yaw = eulerYawActual;
     }
     /**    **/
     

@@ -63,7 +63,7 @@ struct this_s {
   uint16_t thrustMin;  // Minimum thrust value to output
 };
 
-// Maximum roll/pitch angle permited
+// Maximum roll/pitch angle permitted
 static float rpLimit  = 20;
 static float rpLimitOverhead = 1.10f;
 // Velocity maximums
@@ -132,10 +132,10 @@ static struct this_s this = {
     .pid.dt = DT,
   },
 
-  // .thrustBase = 36000,
-  // .thrustMin  = 20000,
-  .thrustBase = 32000,
-  .thrustMin  = 10000,
+//   .thrustBase = 36000,
+   .thrustMin  = 20000,
+  .thrustBase = 30000,
+//  .thrustMin  = 10000,
 };
 #endif
 

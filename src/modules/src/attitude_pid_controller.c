@@ -114,9 +114,11 @@ void attitudeControllerCorrectRatePID(
   pitchOutput = saturateSignedInt16(pidUpdate(&pidPitchRate, pitchRateActual, true));
 
   /** NOTE: My modifications made below for relieving yaw orientation lock: **/
-  // pidSetDesired(&pidYawRate, yawRateDesired);
+// pidSetDesired(&pidYawRate, yawRateActual);
+
   /**    **/
- pidSetDesired(&pidYawRate, yawRateActual);
+  pidSetDesired(&pidYawRate, yawRateDesired);
+  /* The output is the desired rate which should be fed into a rate controller. */
   yawOutput = saturateSignedInt16(pidUpdate(&pidYawRate, yawRateActual, true));
 //  yawOutput = saturateSignedInt16(pidUpdate(&pidYawRate, yawRateActual, false));
 
@@ -146,10 +148,15 @@ void attitudeControllerCorrectAttitudePID(
     yawError += 360.0f;
   // Removing yaw orientation lock with the following line:
 //  yawError = 0.0f;
-  // Another one of my modifications:
+  // More of my modifications:
   *yawErr = yawError;
-  pidSetError(&pidYaw, yawError);
-  *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, true);
+  if (yawError > 90.0f || yawError < 90.0f) {
+	  yawError = 0.0f;
+  }
+
+  pidSetError(&pidYaw, yawError); 	// redundant if updateError arg below is true
+  *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, false); //true);
+
 }
 
 
