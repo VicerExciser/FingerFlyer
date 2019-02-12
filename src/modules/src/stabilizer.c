@@ -59,9 +59,9 @@ static bool startPropTest = false;
 uint32_t inToOutLatency;
 
 // State variables for the stabilizer
-static setpoint_t setpoint;
-static sensorData_t sensorData;
-static state_t state;
+static setpoint_t setpoint;       // FOLLOW THIS YARN
+static sensorData_t sensorData; 
+static state_t state;         
 static control_t control;
 
 static StateEstimatorType estimatorType;
@@ -183,6 +183,9 @@ static void stabilizerTask(void* param)
       sitAwUpdateSetpoint(&setpoint, &sensorData, &state);
 
       controller(&control, &setpoint, &sensorData, &state, tick);
+
+      /* EXPERIMENTAL CODE: */
+      // motorsSetRatio(MOTOR_M1, setpoint.)
 
       checkEmergencyStopTimeout();
 

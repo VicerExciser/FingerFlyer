@@ -76,6 +76,8 @@ static const float thrustScale = 1000.0f;
 #define POSITION_LPF_CUTOFF_FREQ 20.0f
 #define POSITION_LPF_ENABLE true
 
+
+/*----------------- MODIFY PID SETTINGS HERE --------------- */
 #ifndef UNIT_TEST
 static struct this_s this = {
   .pidVX = {
@@ -163,6 +165,9 @@ static float runPid(float input, struct pidAxis_s *axis, float setpoint, float d
   return pidUpdate(&axis->pid, input, true);
 }
 
+/*-------------------------------------------------------------*/
+
+
 void positionController(float* thrust, attitude_t *attitude, setpoint_t *setpoint,
                                                              const state_t *state)
 {
@@ -202,8 +207,9 @@ void velocityController(float* thrust, attitude_t *attitude, setpoint_t *setpoin
   this.pidVY.pid.outputLimit = rpLimit * rpLimitOverhead;
   // Set the output limit to the maximum thrust range
   // this.pidVZ.pid.outputLimit = (UINT16_MAX / 2 / thrustScale);
-  /* EXPERIMENTAL CHANGE: */
-  this.pidVZ.pid.outputLimit = (this.thrustBase - this.thrustMin) / thrustScale;
+  /* EXPERIMENTAL CHANGES: */
+  // this.pidVZ.pid.outputLimit = (this.thrustBase - this.thrustMin) / thrustScale;
+  this.pidVZ.pid.outputLimit = (UINT16_MAX / 4 / thrustScale);
 
   // Roll and Pitch
   float rollRaw  = runPid(state->velocity.x, &this.pidVX, setpoint->velocity.x, DT);
@@ -268,8 +274,10 @@ LOG_ADD(LOG_FLOAT, VZd, &this.pidVZ.pid.outD)
 
 LOG_GROUP_STOP(posCtl)
 
+//--------- ADJUST THESE GAINS --------------------
 PARAM_GROUP_START(velCtlPid)
 
+// PARAM_ADD(type, name, address)
 PARAM_ADD(PARAM_FLOAT, vxKp, &this.pidVX.pid.kp)
 PARAM_ADD(PARAM_FLOAT, vxKi, &this.pidVX.pid.ki)
 PARAM_ADD(PARAM_FLOAT, vxKd, &this.pidVX.pid.kd)

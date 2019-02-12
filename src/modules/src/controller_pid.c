@@ -121,7 +121,8 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
 
   if (tiltCompensationEnabled)
   {
-    control->thrust = actuatorThrust / sensfusion6GetInvThrustCompensationForTilt();
+    control->thrust = actuatorThrust / sensfusion6GetInvThrustCompensationForTilt() /* my addition: */ / 2;
+    // sensfusion6GetInvThrustCompensationForTilt: Returns the z component of the estimated gravity direction
   }
   else
   {

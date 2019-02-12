@@ -40,6 +40,8 @@
 #define PID_PITCH_RATE_KD  2.5
 #define PID_PITCH_RATE_INTEGRATION_LIMIT   33.3
 
+/* Experimental values found from https://github.com/bitcraze/crazyflie-firmware/commit/a0628ec2c171c0cac18bdf5306101c697ebae590 */
+
 //#define PID_YAW_RATE_KP  120.0
 #define PID_YAW_RATE_KP  70.0
 #define PID_YAW_RATE_KI  16.7
