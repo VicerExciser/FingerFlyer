@@ -228,8 +228,8 @@ typedef struct heightMeasurement_s {
 #define RATE_50_HZ 50
 #define RATE_25_HZ 25
 
-// #define RATE_MAIN_LOOP RATE_1000_HZ   // stabilizer loop runs at 1kHz (stock) or 500Hz (kalman)
-#define RATE_MAIN_LOOP RATE_500_HZ
+#define RATE_MAIN_LOOP RATE_1000_HZ   // stabilizer loop runs at 1kHz (stock) or 500Hz (kalman)
+// #define RATE_MAIN_LOOP RATE_500_HZ
 #define ATTITUDE_RATE RATE_500_HZ
 /* EXPERIMENTAL CHANGE: */
 //#define ATTITUDE_RATE RATE_250_HZ		// NOTE: THIS WILL CAUSE ROTORS TO ALWAYS SPIN SLOWLY!
