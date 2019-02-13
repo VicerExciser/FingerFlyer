@@ -150,9 +150,9 @@ void attitudeControllerCorrectAttitudePID(
 //  yawError = 0.0f;
   // More of my modifications:
   *yawErr = yawError;
-  if (yawError > 90.0f || yawError < 90.0f) {
-	  yawError = 0.0f;
-  }
+//  if (yawError > 90.0f || yawError < 90.0f) {
+//	  yawError = 0.0f;
+//  }
 
   pidSetError(&pidYaw, yawError); 	// redundant if updateError arg below is true
   *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, false); //true);

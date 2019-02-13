@@ -80,9 +80,9 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
 //    float yawError; <-- made global
 
     /** WARNING! EXPERIMENTALLY MODIFIED FOR RESETTING YAW SETPOINT AT 30 DEG. INTERVALS: **/
-    float eulerYawActual = state->attitude.yaw;
-    double yawDesDelta = (double)(eulerYawActual - attitudeDesired.yaw);
-    double yawSetDelta = (double)(eulerYawActual - setpoint->attitude.yaw);
+    // float eulerYawActual = state->attitude.yaw;
+    // double yawDesDelta = (double)(eulerYawActual - attitudeDesired.yaw);
+    // double yawSetDelta = (double)(eulerYawActual - setpoint->attitude.yaw);
     // if ((fabs(yawDesDelta) > (double)YAW_SETPOINT_THRESH) || (fabs(yawSetDelta) > (double)YAW_SETPOINT_THRESH)) {
     //     attitudeDesired.yaw = eulerYawActual;
     //     setpoint->attitude.yaw = eulerYawActual;
@@ -121,7 +121,7 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
 
   if (tiltCompensationEnabled)
   {
-    control->thrust = actuatorThrust / sensfusion6GetInvThrustCompensationForTilt() /* my addition: */ / 2;
+    control->thrust = actuatorThrust / sensfusion6GetInvThrustCompensationForTilt();// /* my addition: */ / 2;
     // sensfusion6GetInvThrustCompensationForTilt: Returns the z component of the estimated gravity direction
   }
   else
