@@ -83,11 +83,11 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
     float eulerYawActual = state->attitude.yaw;
     double yawDesDelta = (double)(eulerYawActual - attitudeDesired.yaw);
     double yawSetDelta = (double)(eulerYawActual - setpoint->attitude.yaw);
-    if ((fabs(yawDesDelta) > (double)YAW_SETPOINT_THRESH) || (fabs(yawSetDelta) > (double)YAW_SETPOINT_THRESH)) {
-        attitudeDesired.yaw = eulerYawActual;
-        setpoint->attitude.yaw = eulerYawActual;
-        control->yaw = eulerYawActual;
-    }
+    // if ((fabs(yawDesDelta) > (double)YAW_SETPOINT_THRESH) || (fabs(yawSetDelta) > (double)YAW_SETPOINT_THRESH)) {
+    //     attitudeDesired.yaw = eulerYawActual;
+    //     setpoint->attitude.yaw = eulerYawActual;
+    //     control->yaw = eulerYawActual;
+    // }
     /**    **/
     
     attitudeControllerCorrectAttitudePID(state->attitude.roll, state->attitude.pitch, state->attitude.yaw,
