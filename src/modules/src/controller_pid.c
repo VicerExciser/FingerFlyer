@@ -51,8 +51,8 @@ void controllerPid(control_t *control, setpoint_t *setpoint,
 	// 	setpoint->attitude.yaw -= yawError;
 
     if (setpoint->mode.yaw == modeVelocity) {
-//       attitudeDesired.yaw += setpoint->attitudeRate.yaw * ATTITUDE_UPDATE_DT;
-       attitudeDesired.yaw = setpoint->attitude.yaw;
+      attitudeDesired.yaw += setpoint->attitudeRate.yaw * ATTITUDE_UPDATE_DT;
+       // attitudeDesired.yaw = setpoint->attitude.yaw;
       while (attitudeDesired.yaw > 180.0f)
         attitudeDesired.yaw -= 360.0f;
       while (attitudeDesired.yaw < -180.0f)

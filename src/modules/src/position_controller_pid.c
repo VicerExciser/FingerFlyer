@@ -206,10 +206,10 @@ void velocityController(float* thrust, attitude_t *attitude, setpoint_t *setpoin
   this.pidVX.pid.outputLimit = rpLimit * rpLimitOverhead;
   this.pidVY.pid.outputLimit = rpLimit * rpLimitOverhead;
   // Set the output limit to the maximum thrust range
-  // this.pidVZ.pid.outputLimit = (UINT16_MAX / 2 / thrustScale);
+  this.pidVZ.pid.outputLimit = (UINT16_MAX / 2 / thrustScale);
   /* EXPERIMENTAL CHANGES: */
   // this.pidVZ.pid.outputLimit = (this.thrustBase - this.thrustMin) / thrustScale;
-  this.pidVZ.pid.outputLimit = (UINT16_MAX / 4 / thrustScale);
+  // this.pidVZ.pid.outputLimit = (UINT16_MAX / 4 / thrustScale);
 
   // Roll and Pitch
   float rollRaw  = runPid(state->velocity.x, &this.pidVX, setpoint->velocity.x, DT);

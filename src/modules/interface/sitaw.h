@@ -49,7 +49,7 @@ void sitAwUpdateSetpoint(setpoint_t *setpoint, const sensorData_t *sensorData,
 #define SITAW_TU_ENABLED           /* Uncomment to enable */
 
 /* Configuration options for the 'Free Fall' detection. */
-#define SITAW_FF_THRESHOLD 0.1 //0.25(bad)     /* The default tolerance for AccWZ deviations from -1, indicating Free Fall. */
+#define SITAW_FF_THRESHOLD 0.15 //0.1 //0.25(bad)     /* The default tolerance for AccWZ deviations from -1, indicating Free Fall. */
 #define SITAW_FF_TRIGGER_COUNT 15  /* The number of consecutive tests for Free Fall to be detected. Configured for 250Hz testing. */
 
 /* Configuration options for the 'At Rest' detection. */
