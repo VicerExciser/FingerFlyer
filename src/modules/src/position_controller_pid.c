@@ -134,9 +134,9 @@ static struct this_s this = {
     .pid.dt = DT,
   },
 
-//   .thrustBase = 36000,
+   .thrustBase = 36000,
    .thrustMin  = 20000,
-  .thrustBase = 30000,
+//  .thrustBase = 30000,
 //  .thrustMin  = 10000,
 };
 #endif

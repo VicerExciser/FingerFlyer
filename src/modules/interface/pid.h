@@ -41,25 +41,28 @@
 #define PID_PITCH_RATE_INTEGRATION_LIMIT   33.3
 
 /* Experimental values found from https://github.com/bitcraze/crazyflie-firmware/commit/a0628ec2c171c0cac18bdf5306101c697ebae590 */
+/*
+ * Lower P gain == less overcompensation by stabilizer
+ */
 
 //#define PID_YAW_RATE_KP  120.0
-#define PID_YAW_RATE_KP  70.0
+#define PID_YAW_RATE_KP  70.0 //60.0 //70.0
 #define PID_YAW_RATE_KI  16.7
 #define PID_YAW_RATE_KD  0.0
 #define PID_YAW_RATE_INTEGRATION_LIMIT     166.7
 
-#define PID_ROLL_KP  10 	//6.0
+#define PID_ROLL_KP  10// 12 //8.0 //10(good) 	//6.0(stock)
 #define PID_ROLL_KI  4.0 	//3.0
 #define PID_ROLL_KD  0.0
 #define PID_ROLL_INTEGRATION_LIMIT    20.0
 
-#define PID_PITCH_KP  10	//6.0
+#define PID_PITCH_KP  10 //12 //8.0 //10(good)	//6.0(stock)
 #define PID_PITCH_KI  4.0	//3.0
 #define PID_PITCH_KD  0.0
 #define PID_PITCH_INTEGRATION_LIMIT   20.0
 
 #define PID_YAW_KP  10.0	//6.0
-#define PID_YAW_KI  1.0
+#define PID_YAW_KI  1.0 // 2.0 //1.0(stock)
 #define PID_YAW_KD  0.35
 #define PID_YAW_INTEGRATION_LIMIT     360.0
 

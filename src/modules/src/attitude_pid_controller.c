@@ -141,6 +141,17 @@ void attitudeControllerCorrectAttitudePID(
   // Update PID for yaw axis
   float yawError = 0.0f;
   yawError = eulerYawDesired - eulerYawActual;
+
+  /* EXPERIMENTAL: */
+//    if (yawError > 90.0f || yawError < -90.0f) {
+  if (yawError > 45.0f || yawError < -45.0f) {
+  	  yawError = 0.0f;
+
+  	  // TODO: Reset desired to actual or nearest 45 deg point
+  	  pidSetDesired(&pidYaw, eulerYawActual);
+    }
+    /*--------------*/
+
   // Quick modulo 360:
   if (yawError > 180.0f)
     yawError -= 360.0f;
@@ -150,12 +161,10 @@ void attitudeControllerCorrectAttitudePID(
 //  yawError = 0.0f;
   // More of my modifications:
   *yawErr = yawError;
-//  if (yawError > 90.0f || yawError < 90.0f) {
-//	  yawError = 0.0f;
-//  }
+
 
   pidSetError(&pidYaw, yawError); 	// redundant if updateError arg below is true
-  *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, false); //true);
+  *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, true);
 
 }
 
