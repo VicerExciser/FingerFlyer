@@ -30,39 +30,46 @@
 #include <stdbool.h>
 #include "filter.h"
 
-#define PID_ROLL_RATE_KP  250.0
-#define PID_ROLL_RATE_KI  500.0
-#define PID_ROLL_RATE_KD  2.5
+#define RP_RATE_KP 150.0 	///* tried: 200.0(good) *////* stock: 250.0 *///
+#define RP_RATE_KI 500.0 	///* stock: 500.0 *///
+#define RP_RATE_KD 2.5 		///* stock: 2.5*///
+
+#define PID_ROLL_RATE_KP  RP_RATE_KP
+#define PID_ROLL_RATE_KI  RP_RATE_KI
+#define PID_ROLL_RATE_KD  RP_RATE_KD
 #define PID_ROLL_RATE_INTEGRATION_LIMIT    33.3
 
-#define PID_PITCH_RATE_KP  250.0
-#define PID_PITCH_RATE_KI  500.0
-#define PID_PITCH_RATE_KD  2.5
+#define PID_PITCH_RATE_KP  RP_RATE_KP
+#define PID_PITCH_RATE_KI  RP_RATE_KI
+#define PID_PITCH_RATE_KD  RP_RATE_KD
 #define PID_PITCH_RATE_INTEGRATION_LIMIT   33.3
+
+#define PID_YAW_RATE_KP  70.0 	///* tried: 60.0 *////* stock: 120.0 *///
+#define PID_YAW_RATE_KI  16.7
+#define PID_YAW_RATE_KD  0.0
+#define PID_YAW_RATE_INTEGRATION_LIMIT     166.7
 
 /* Experimental values found from https://github.com/bitcraze/crazyflie-firmware/commit/a0628ec2c171c0cac18bdf5306101c697ebae590 */
 /*
  * Lower P gain == less overcompensation by stabilizer
  */
 
-//#define PID_YAW_RATE_KP  120.0
-#define PID_YAW_RATE_KP  70.0 //60.0 //70.0
-#define PID_YAW_RATE_KI  16.7
-#define PID_YAW_RATE_KD  0.0
-#define PID_YAW_RATE_INTEGRATION_LIMIT     166.7
+#define RP_KP 12.0 		///* tried: 16.0, 8.0, 10.0(good) *////* stock: 6.0 *///
+#define RP_KI 5.0 		///* tried: 4.0(good) *////* stock: 3.0 *///
+#define RP_KD 0.0 		///* stock: 0.0 *///
 
-#define PID_ROLL_KP  12.0 //16.0 // 12 //8.0 //10(good) 	//6.0(stock)
-#define PID_ROLL_KI  5.0 //4.0(good) 	//3.0
-#define PID_ROLL_KD  0.0
+#define PID_ROLL_KP  RP_KP
+#define PID_ROLL_KI  RP_KI
+#define PID_ROLL_KD  RP_KD
 #define PID_ROLL_INTEGRATION_LIMIT    20.0
 
-#define PID_PITCH_KP  12.0 //16.0 //10 //12 //8.0 //10(good)	//6.0(stock)
-#define PID_PITCH_KI  5.0 //4.0(good)	//3.0
-#define PID_PITCH_KD  0.0
+#define PID_PITCH_KP  RP_KP
+#define PID_PITCH_KI  RP_KI
+#define PID_PITCH_KD  RP_KD
 #define PID_PITCH_INTEGRATION_LIMIT   20.0
 
-#define PID_YAW_KP  10.0	//6.0
-#define PID_YAW_KI  1.0 // 2.0 //1.0(stock)
+#define PID_YAW_KP  10.0	///* stock: 6.0 *///
+#define PID_YAW_KI  1.0 	///* tried: 2.0 *////* stock: 1.0 *///
 #define PID_YAW_KD  0.35
 #define PID_YAW_INTEGRATION_LIMIT     360.0
 
