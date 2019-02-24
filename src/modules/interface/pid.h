@@ -30,7 +30,9 @@
 #include <stdbool.h>
 #include "filter.h"
 
-#define RP_RATE_KP 150.0 	///* tried: 200.0(good) *////* stock: 250.0 *///
+//#if defined(PLATFORM_CF2)
+
+#define RP_RATE_KP 250.0  	///* tried: 200.0(good), 150.0(DONT USE->infinite thrust) *////* stock: 250.0 *///
 #define RP_RATE_KI 500.0 	///* stock: 500.0 *///
 #define RP_RATE_KD 2.5 		///* stock: 2.5*///
 
@@ -44,18 +46,20 @@
 #define PID_PITCH_RATE_KD  RP_RATE_KD
 #define PID_PITCH_RATE_INTEGRATION_LIMIT   33.3
 
-#define PID_YAW_RATE_KP  70.0 	///* tried: 60.0 *////* stock: 120.0 *///
+#define PID_YAW_RATE_KP  120.0 	///* tried: 60.0 , 70.0(good)*////* stock: 120.0 *///
 #define PID_YAW_RATE_KI  16.7
 #define PID_YAW_RATE_KD  0.0
 #define PID_YAW_RATE_INTEGRATION_LIMIT     166.7
+
+
 
 /* Experimental values found from https://github.com/bitcraze/crazyflie-firmware/commit/a0628ec2c171c0cac18bdf5306101c697ebae590 */
 /*
  * Lower P gain == less overcompensation by stabilizer
  */
 
-#define RP_KP 12.0 		///* tried: 16.0, 8.0, 10.0(good) *////* stock: 6.0 *///
-#define RP_KI 5.0 		///* tried: 4.0(good) *////* stock: 3.0 *///
+#define RP_KP 9.0 		///* tried: 16.0, 8.0, 10.0(good), 12.0(aight) *////* stock: 6.0 *///
+#define RP_KI 1.0 //5.0 		///* tried: 4.0(good) *////* stock: 3.0 *///
 #define RP_KD 0.0 		///* stock: 0.0 *///
 
 #define PID_ROLL_KP  RP_KP
@@ -77,6 +81,43 @@
 #define DEFAULT_PID_INTEGRATION_LIMIT 5000.0
 #define DEFAULT_PID_OUTPUT_LIMIT      0.0
 
+//#else // (for CFv1, obsolete)
+/*
+#define PID_ROLL_RATE_KP  70.0
+#define PID_ROLL_RATE_KI  0.0
+#define PID_ROLL_RATE_KD  0.0
+#define PID_ROLL_RATE_INTEGRATION_LIMIT    33.3
+
+#define PID_PITCH_RATE_KP  70.0
+#define PID_PITCH_RATE_KI  0.0
+#define PID_PITCH_RATE_KD  0.0
+#define PID_PITCH_RATE_INTEGRATION_LIMIT   33.3
+
+#define PID_YAW_RATE_KP  70.0
+#define PID_YAW_RATE_KI  16.7
+#define PID_YAW_RATE_KD  0.0
+#define PID_YAW_RATE_INTEGRATION_LIMIT     166.7
+
+#define PID_ROLL_KP  3.5
+#define PID_ROLL_KI  2.0
+#define PID_ROLL_KD  0.0
+#define PID_ROLL_INTEGRATION_LIMIT    20.0
+
+#define PID_PITCH_KP  3.5
+#define PID_PITCH_KI  2.0
+#define PID_PITCH_KD  0.0
+#define PID_PITCH_INTEGRATION_LIMIT   20.0
+
+#define PID_YAW_KP  10.0
+#define PID_YAW_KI  1.0
+#define PID_YAW_KD  0.35
+#define PID_YAW_INTEGRATION_LIMIT     360.0
+
+
+#define DEFAULT_PID_INTEGRATION_LIMIT 10000.0
+#define DEFAULT_PID_OUTPUT_LIMIT      0.0
+*/
+//#endif
 
 typedef struct
 {
@@ -203,3 +244,5 @@ void pidSetKd(PidObject* pid, const float kd);
  */
 void pidSetDt(PidObject* pid, const float dt);
 #endif /* PID_H_ */
+
+
