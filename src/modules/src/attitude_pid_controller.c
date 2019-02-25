@@ -147,10 +147,11 @@ void attitudeControllerCorrectAttitudePID(
 //  if (yawError > 45.0f || yawError < -45.0f) {
 //  	  yawError = 0.0f;
 
-  	  // TODO: Reset desired to actual or nearest 45 deg point
-  	  pidSetDesired(&pidYaw, eulerYawActual);
-//    }
-    /*--------------*/
+  //_________________________________________________________
+  /* Include this line for 'loose lock' where rotating the copter will dynamically
+   * update setpoint to actual rotation angle. */
+  pidSetDesired(&pidYaw, eulerYawActual);
+  //_________________________________________________________
 
   // Quick modulo 360:
   if (yawError > 180.0f)
@@ -161,7 +162,6 @@ void attitudeControllerCorrectAttitudePID(
 //  yawError = 0.0f;
   // More of my modifications:
   *yawErr = yawError;
-
 
   pidSetError(&pidYaw, yawError); 	// redundant if updateError arg below is true
   *yawRateDesired = pidUpdate(&pidYaw, eulerYawActual, true);

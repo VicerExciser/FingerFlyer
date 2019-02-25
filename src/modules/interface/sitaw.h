@@ -45,19 +45,26 @@ void sitAwUpdateSetpoint(setpoint_t *setpoint, const sensorData_t *sensorData,
 #define SITAW_ENABLED
 /* Enable the different functions of the situation awareness framework. */
 //#define SITAW_FF_ENABLED           /* Uncomment to enable */
+#define SITAW_FF_ENABLED
 //#define SITAW_AR_ENABLED           /* Uncomment to enable */
+#define SITAW_AR_ENABLED
 #define SITAW_TU_ENABLED           /* Uncomment to enable */
 
-/* Configuration options for the 'Free Fall' detection. */
-#define SITAW_FF_THRESHOLD 0.05 //0.1 //0.25(bad)     /* The default tolerance for AccWZ deviations from -1, indicating Free Fall. */
-#define SITAW_FF_TRIGGER_COUNT 15  /* The number of consecutive tests for Free Fall to be detected. Configured for 250Hz testing. */
+/* Configuration options for the 'Free Fall' detection. ====================================================== */
+/* The default tolerance for AccWZ deviations from -1, indicating Free Fall: */
+#define SITAW_FF_THRESHOLD 0.1 //0.15 ///* tried: 0.25(bad), 0.05 *////* stock: 0.1 *///
+/* The number of consecutive tests for Free Fall to be detected. Configured for 250Hz testing. */
+#define SITAW_FF_TRIGGER_COUNT 15
 
-/* Configuration options for the 'At Rest' detection. */
-#define SITAW_AR_THRESHOLD 0.025 //0.05 //0.1(bad)    /* The default tolerance for AccZ deviations from 1 and AccX, AccY deviations from 0, indicating At Rest. */
-#define SITAW_AR_TRIGGER_COUNT 500 //150(bad) /* The number of consecutive tests for At Rest to be detected. Configured for 250Hz testing. */
+/* Configuration options for the 'At Rest' detection. ====================================================== */
+/* The default tolerance for AccZ deviations from 1 and AccX, AccY deviations from 0, indicating At Rest. */
+#define SITAW_AR_THRESHOLD 0.05 ///* tried: 0.1(bad), 0.025 *////* stock: 0.05 *///
+/* The number of consecutive tests for At Rest to be detected. Configured for 250Hz testing. */
+#define SITAW_AR_TRIGGER_COUNT 500 ///* tried: 150(bad) *///
 
-/* Configuration options for the 'Tumbled' detection. */
-#define SITAW_TU_THRESHOLD 45 //60      /* The minimum roll angle indicating a Tumbled situation. */
+/* Configuration options for the 'Tumbled' detection. ====================================================== */
+/* The minimum roll angle indicating a Tumbled situation. */
+#define SITAW_TU_THRESHOLD 80 //60 /* tried: 45(sure, fine) *////* stock: 60 *///
 #define SITAW_TU_TRIGGER_COUNT 15  /* The number of consecutive tests for Tumbled to be detected. Configured for 250Hz testing. */
 
 /* LOG configurations. Enable these to be able to log detection in the cfclient. */

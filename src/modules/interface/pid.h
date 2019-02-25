@@ -33,8 +33,8 @@
 //#if defined(PLATFORM_CF2)
 
 #define RP_RATE_KP 250.0  	///* tried: 200.0(good), 150.0(DONT USE->infinite thrust) *////* stock: 250.0 *///
-#define RP_RATE_KI 500.0 	///* stock: 500.0 *///
-#define RP_RATE_KD 2.5 		///* stock: 2.5*///
+#define RP_RATE_KI 500.0 	///* tried:  *////* stock: 500.0 *///
+#define RP_RATE_KD 2.5 		///* tried:  *////* stock: 2.5*///
 
 #define PID_ROLL_RATE_KP  RP_RATE_KP
 #define PID_ROLL_RATE_KI  RP_RATE_KI
@@ -46,9 +46,9 @@
 #define PID_PITCH_RATE_KD  RP_RATE_KD
 #define PID_PITCH_RATE_INTEGRATION_LIMIT   33.3
 
-#define PID_YAW_RATE_KP  120.0 	///* tried: 60.0 , 70.0(good)*////* stock: 120.0 *///
-#define PID_YAW_RATE_KI  16.7
-#define PID_YAW_RATE_KD  0.0
+#define PID_YAW_RATE_KP  120.0 //100.0 	///* tried: 60.0 , 70.0(good), 75.0(possible problematic) *////* stock: 120.0 *///
+#define PID_YAW_RATE_KI  16.7 	///* tried:  */
+#define PID_YAW_RATE_KD  0.0 	///* tried:  */
 #define PID_YAW_RATE_INTEGRATION_LIMIT     166.7
 
 
@@ -58,9 +58,9 @@
  * Lower P gain == less overcompensation by stabilizer
  */
 
-#define RP_KP 9.0 		///* tried: 16.0, 8.0, 10.0(good), 12.0(aight) *////* stock: 6.0 *///
-#define RP_KI 1.0 //5.0 		///* tried: 4.0(good) *////* stock: 3.0 *///
-#define RP_KD 0.0 		///* stock: 0.0 *///
+#define RP_KP 6.75 //7.0 //8.5 //7.5 //9.5 //11.0  ///* tried: 16.0, 8.0, 8.5(great) 9.0, 10.0(good), 12.0(aight) *////* stock: 6.0 *///
+#define RP_KI 3.0 //2.5 //3.75 //3.0 //1.75 //5.5 //5.0 //4.5 ///* tried: 5.5(great), 4.0(good), 3.5(aight), 6.0(test more), 1.0(too slow to react-especially for freefall), 2.5(barely too slow) *////* stock: 3.0 *///
+#define RP_KD 0.0 		///* tried: 0.5(bad), 0.1(dont think so..) *////* stock: 0.0 *///
 
 #define PID_ROLL_KP  RP_KP
 #define PID_ROLL_KI  RP_KI
@@ -72,9 +72,9 @@
 #define PID_PITCH_KD  RP_KD
 #define PID_PITCH_INTEGRATION_LIMIT   20.0
 
-#define PID_YAW_KP  10.0	///* stock: 6.0 *///
-#define PID_YAW_KI  1.0 	///* tried: 2.0 *////* stock: 1.0 *///
-#define PID_YAW_KD  0.35
+#define PID_YAW_KP  7.0 //7.5	///* tried: 7.0(great) 10.0, 6.5(unstable) *////* stock: 6.0 *///
+#define PID_YAW_KI  1.75 	///* tried: 2.0(BAD), 1.5(great) *////* stock: 1.0 *///
+#define PID_YAW_KD  0.0 //0.35 	///* tried: 0.1(great) *////* stock: 0.35 *///
 #define PID_YAW_INTEGRATION_LIMIT     360.0
 
 
